@@ -1,0 +1,310 @@
+Yelp Perth restaurants
+
+Main Page
+--------------------------------------------------------------------------------
+https://www.yelp.com.au/search?cflt=restaurants&find_loc=Perth+Western+Australia
+--------------------------------------------------------------------------------
+Search ---> Location = "Perth Western Australia", Category = "Restaurants"
+search?find_desc=Restaurants&find_loc=northbridge
+search?find_desc=Bars&find_loc=Perth
+search?find_desc=Bars&find_loc=Fremantle,+Perth,+Western+Australia
+
+
+(0.5) Set Distance to Within 2km, and reload the website
+
+<div class="filter-set distance-filters">
+    ...
+    <input class="radio" ... value="g: ...">   ★このvalueを取る
+        <span class="radio-link">Within 2 km</span>
+
+------- or -------
+
+<div class="filter-set distance-filters">
+    <ul class="radio-list radio-list-links main">
+        <li>...</li>
+        <li>...</li>
+        <li>...</li>
+        <li>
+            <label>
+                <input ...>  ★4つめのliの<input>のvalue= を取る
+
+
+search?find_desc=Restaurants&find_loc=Maylands,+Perth+Western+Australia&l=g:...
+
+※l="<value=の値>"
+
+(1) Information of each restaurant on Main Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<li class="regular-search-result" data-unique-request-id="445eada4e49c9975">
+    <div class="search-result natural-search-result" data-biz-id="9GXasxXHIPb3hhxAYZgOMg" data-key="2" data-component-bound="true">
+        <div class="biz-listing-large">
+            <div class="main-attributes">
+                <div class="media-block media-block--12">
+                    <div class="media-avatar">
+                        <div class="photo-box pb-90s">
+                            <a href="/biz/petition-perth" class="js-analytics-click" data-analytics-label="biz-photo">
+                                <img alt="Petition" class="photo-box-img" height="90" src="https://s3-media1.fl.yelpcdn.com/bphoto/ijoc1ZA_CQcRpaBj2-c_HA/90s.jpg" srcset="https://s3-media1.fl.yelpcdn.com/bphoto/ijoc1ZA_CQcRpaBj2-c_HA/180s.jpg 2.00x,https://s3-media1.fl.yelpcdn.com/bphoto/ijoc1ZA_CQcRpaBj2-c_HA/ms.jpg 1.11x,https://s3-media1.fl.yelpcdn.com/bphoto/ijoc1ZA_CQcRpaBj2-c_HA/120s.jpg 1.33x,https://s3-media1.fl.yelpcdn.com/bphoto/ijoc1ZA_CQcRpaBj2-c_HA/168s.jpg 1.87x,https://s3-media1.fl.yelpcdn.com/bphoto/ijoc1ZA_CQcRpaBj2-c_HA/ls.jpg 2.78x,https://s3-media1.fl.yelpcdn.com/bphoto/ijoc1ZA_CQcRpaBj2-c_HA/258s.jpg 2.87x" width="90">
+
+                            </a>
+                        </div>
+                    </div>
+                    <div class="media-story">
+                        <h3 class="search-result-title">
+                            <span class="indexed-biz-name">"2.         "
+                                <a class="biz-name js-analytics-click" data-analytics-label="biz-name" href="/biz/petition-perth" data-hovercard-id="gPVyWoMslm6HO8PYMOIvHw"><span>Petition</span></a>
+                            </span>
+                        </h3>
+                        <div class="biz-rating biz-rating-large clearfix">
+                            <div class="i-stars i-stars--regular-4 rating-large" title="4.0 star rating">
+                                <img class="offscreen" height="303" src="https://s3-media2.fl.yelpcdn.com/assets/srv0/yelp_design_web/9b34e39ccbeb/assets/img/stars/stars.png" width="84" alt="4.0 star rating">
+                            </div>
+                            <span class="review-count rating-qualifier">
+                                86 reviews
+                            </span>
+                        </div>
+                        <div class="price-category">
+                            <span class="bullet-after">
+                                <span class="business-attribute price-range">$$</span>
+                            </span>
+                            <span class="category-str-list">
+                                <a href="/search?cflt=wine_bars&amp;find_loc=Perth+Western+Australia">Wine Bars</a>,
+                                <a href="/search?cflt=beerbar&amp;find_loc=Perth+Western+Australia">Beer Bars</a>,
+                                <a href="/search?cflt=australian&amp;find_loc=Perth+Western+Australia">Australian</a>
+                            </span>
+                        </div>
+                        <ul class="search-result_tags"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="secondary-attributes">
+                <span class="neighborhood-str-list">
+                    Perth City
+                </span>
+                <address>
+                    Barrack St<br>Perth Western Australia 6000
+                </address>
+                <span class="offscreen">Phone number</span>
+                <span class="biz-phone">
+                    (08) 6168 7771
+                </span>
+            </div>
+        </div>
+
+        <div class="snippet-block media-block">
+            <div class="media-avatar">
+                <div class="photo-box pb-30s" data-hovercard-id="paGz0E913Oz0KaXp7Zkzvg">
+                    <a href="/user_details?userid=0x1Um6nLf-c05qyqUG4JXA">
+                        <img alt="Carmen P." class="photo-box-img" height="30" src="https://s3-media1.fl.yelpcdn.com/photo/MVLDqBnI4YSTaXQ4qvyGGA/30s.jpg" srcset="https://s3-media1.fl.yelpcdn.com/photo/MVLDqBnI4YSTaXQ4qvyGGA/60s.jpg 2.00x,https://s3-media1.fl.yelpcdn.com/photo/MVLDqBnI4YSTaXQ4qvyGGA/90s.jpg 3.00x,https://s3-media1.fl.yelpcdn.com/photo/MVLDqBnI4YSTaXQ4qvyGGA/ss.jpg 1.33x" width="30">
+                    </a>
+                </div>
+            </div>
+            <div class="media-story">
+                <p class="snippet">
+                        Such a fantastic place to eat and share meals with friends. All the meals are meant to be shared so the bigger your group, the more dishes you can try. &nbsp; Service was prompt and…
+                        <a href="/biz/petition-perth?hrid=I4JMaaxpYu2AkgQK1GnHxA" class="nowrap">read more</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</li>
+
+==========================================================
+※class="media-avatar", class="media-story" appears twice.
+
+
+
+(2)To go to next Main Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div class="search-pagination">
+    <div class="pagination-block">
+        <div class="arrange arrange--stack arrange--baseline arrange--6">
+            <div class="page-of-pages arrange_unit arrange_unit--fill">
+                Page 2 of 100
+            </div>
+            <div class="pagination-links arrange_unit">
+                <div class="arrange arrange--baseline">
+                    <div class="arrange_unit">
+                        <a class="u-decoration-none prev pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=0">
+                        <span aria-hidden="true" style="width: 24px; height: 24px;" class="icon icon--24-chevron-left icon--size-24 icon--currentColor"><svg class="icon_svg"><use xlink:href="#24x24_chevron_left"></use></svg></span>
+                        <span class="pagination-label responsive-hidden-small">Previous</span>
+                        </a>
+                    </div>
+
+
+                    <div class="arrange_unit page-option current">
+                        <span class="pagination-links_anchor">1</span>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=0">
+                            2
+                        </a>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=20">
+                            3
+                        </a>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=30">
+                            4
+                        </a>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=40">
+                            5
+                        </a>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=50">
+                            6
+                        </a>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=60">
+                            7
+                        </a>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=70">
+                            8
+                        </a>
+                    </div>
+                    <div class="arrange_unit page-option">
+                        <a class="available-number pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=80">
+                            9
+                        </a>
+                    </div>
+
+                    <div class="arrange_unit">
+                        <a class="u-decoration-none next pagination-links_anchor" href="/search?cflt=restaurants&amp;find_loc=Perth+Western+Australia&amp;start=20">
+                            <span class="pagination-label responsive-hidden-small pagination-links_anchor">Next</span>
+                            <span aria-hidden="true" style="width: 24px; height: 24px;" class="icon icon--24-chevron-right icon--size-24 icon--currentColor"><svg class="icon_svg"><use xlink:href="#24x24_chevron_right"></use></svg></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+========================================================
+※<div class="arrange_unit">
+    ↓
+    <a class="u-decoration-none next pagination-links_anchor" ...
+        href="..."  ← next page
+
+※The last page of Main List doesn't have <div class="arrange_unit"><a class="u-decoration-none next pagination-links_anchor"...>
+  ★but it has <div class="arrange_unit"> for prev.
+
+
+
+----------------------------------------------------------
+(3)Each Restaurant Page
+-----------------------------------------------------------
+
+JSを展開した後の情報を取る。
+
+https://html.python-requests.org/
+
+Requests-HTML: HTML Parsing for Humans (writing Python 3)!
+
+を使う。
+
+requests_html をインストール
+
+$pipenv shell   <--- vertualenvを起動、.env = setup file
+
+pipenv :
+https://github.com/pypa/pipenv
+
+-------------
+from requests_html import HTMLSession
+
+session = HTMLSession()
+r = session.get('https://python.org/')
+
+r.html.links  <--- a list of all links on the page
+about = r.html.find('#about', first=True)    <--- id=about Element
+print(about.text)  <--- text included in <id='about'>
+ About
+ Applications
+ :
+ :
+
+
+
+-----------------------------------
+(4)Restaurant's Website
+-----------------------------------
+ <span class="biz-website js-biz-website js-add-url-tagging">
+        <span class="offscreen">Business website</span>
+        <a href="/biz_redir?url=http%3A%2F%2Fwww.nomafia.com.au&amp;website_link_type=website&amp;src_bizid=3INeVrY2M11gYoGtS5AZJg&amp;cachebuster=1526025487&amp;s=74bc6690020f49199adfb3ddc88718397deb706a5be8c9eb3c32972e1dd48d22" target="_blank" rel="noopener">nomafia.com.au</a>
+    </span>
+=================================
+※Get text of this <a> tag, and make http://www.<text>
+
+
+------------------------------------------
+(5) Message the business
+------------------------------------------
+
+<li class="u-relative">
+    <span ...>
+        <a href="javascript:;" ...>
+
+========================================
+※If there's this tag in Each Restaurant Page, it has a message form.
+
+
+----------------------------------------------
+(6) Request a reservation
+----------------------------------------------
+https://www.yelp.com.au/biz/anokha-indian-restaurant-maylands?osq=Restaurants
+※If there's this tag in Each Restaurant Page, it has a 'Request a reservation' form.
+
+
+<span ... class="icon icon--18-speech icon--size-18">
+    <a href="javascript" class="js-message-biz">
+        Request a reservation
+        </a>
+
+
+
+
+------------------------------------------------
+-------------------------------------------------
+STRUCTURE
+--------------------------------------------------
+
+1. Initialization
+
+2. Open Main Page.
+
+3.   Pick up 10 resutaurants into an dictionaries.
+   #  - Name of the restaurant
+   #  -- Genre
+   #  -- Area
+   #  -- Address
+   #  -- Phone number
+
+
+   rest_list = {'<restaurant name>': {'genre' : [<array>],
+                                    'area' : '<area'>,
+                                    'address' : '<address>'
+                                    'phone' : '<phone>'}
+            }
+
+
+4. For each restaurant, go to the link, open next page, and if there's 'website' and 'message to business', add those information to the list.
+
+rest_list = {'<restaurant name>': {'genre' : [<array>],
+                                 'area' : '<area'>,
+                                 'address' : '<address>',
+                                 'phone' : '<phone>',
+                                 'web' : '<website>',
+                                 'message' : true/false }
+         }
+
+5. Go to next page and repeat 3 to 4.
+
+5. Write the list into a file. (each 50 data?)
