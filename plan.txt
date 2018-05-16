@@ -302,7 +302,8 @@ rest_list = {'<restaurant name>': {'genre' : [<array>],
                                  'address' : '<address>',
                                  'phone' : '<phone>',
                                  'web' : '<website>',
-                                 'message' : true/false }
+                                 'message' : true/false,
+                                 'reservation' : true/false }
          }
 
 5. Go to next page and repeat 3 to 4.
