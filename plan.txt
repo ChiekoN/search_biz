@@ -247,10 +247,11 @@ print(about.text)  <--- text included in <id='about'>
 ------------------------------------------
 (5) Message the business
 ------------------------------------------
+<div class="mapbox-text">
+:
+    <a href="javascript:;" class="js-message-biz">
+        text = 'Message the business'
 
-<li class="u-relative">
-    <span ...>
-        <a href="javascript:;" ...>
 
 ========================================
 ※If there's this tag in Each Restaurant Page, it has a message form.
@@ -262,12 +263,10 @@ print(about.text)  <--- text included in <id='about'>
 https://www.yelp.com.au/biz/anokha-indian-restaurant-maylands?osq=Restaurants
 ※If there's this tag in Each Restaurant Page, it has a 'Request a reservation' form.
 
-
-<span ... class="icon icon--18-speech icon--size-18">
-    <a href="javascript" class="js-message-biz">
-        Request a reservation
-        </a>
-
+<div class="mapbox-text">
+:
+    <a href="javascript:;" class="js-message-biz">
+        text = 'Request a reservation'
 
 
 
@@ -308,4 +307,25 @@ rest_list = {'<restaurant name>': {'genre' : [<array>],
 
 5. Go to next page and repeat 3 to 4.
 
-5. Write the list into a file. (each 50 data?)
+6. Write the list into a file. (each 50 data?)
+
+
+---------------------------------------
+TRICKS
+---------------------------------------
+
+★unquote('<URL>')
+
+Use to convert 'http%3A%2F%2Fwww.swallowbar.com.au' to
+' http://www.swallowbar.com.au'
+
+(decode percent-encoded sequences into Unicode characters)
+
+module: urllib.parse
+
+
+★print('<string>', flush=True)
+
+Set flush option to show print() immediately.
+(Without this option, printf() doesn't come out until all process finish.)
+From Python 3.

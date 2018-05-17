@@ -23,17 +23,17 @@ def element_link(element_obj):
         or no object if there's no link in the element.
         Take an item (string of URL) from Set object by min().
     '''
-    if element_obj :
+    if element_obj:
         return min(element_obj.absolute_links)
-    else :
+    else:
         return ''
 
-def get_website_url(url_element) :
+def get_website_url(url_element):
     ''' Get URL from url_element, which is supposed to have <a> in it.
         If url_element is empty, return ''.
     '''
 
-    if not url_element :
+    if not url_element:
         return ''
 
     web_url = unquote(url_element.find('a', first = True).attrs['href'])
@@ -42,18 +42,30 @@ def get_website_url(url_element) :
 
     return web_url
 
+def have_msg_form(msgf_element):
+    ''' Check if the message form or/and reservation form is
+        in the indevidual restaurant page.
+        Return Tuple : Message form (True/False), Reservation form (True/False)
+    '''
+    msgf = msgf_element.find('a.js-message-biz')
+    return ('Message the business' in [i.text for i in msgf],
+            'Request a reservation' in [i.text for i in msgf])
+
 def each_rest_page(each_url):
     ''' Open individual page of restaurants specified by 'url' and get information.
         Return a dictionary containing 'web', 'message', 'reservation'.
     '''
-    if not each_url : return {}
+    if not each_url:
+        return {'web' : '', 'message' : False, 'reservation' : False}
 
     each_session = HTMLSession()
     each_req = each_session.get(each_url)
 
     website_url = get_website_url(each_req.html.find('span.biz-website.js-biz-website.js-add-url-tagging', first = True))
-    print('website : {}'.format(website_url), flush=True)
-    return {'website' : website_url}
+    msg_form, resv_form = have_msg_form(each_req.html.find('div.mapbox-text', first = True))
+
+    print('website : {} , message :{} , reserv : {}'.format(website_url, msg_form, resv_form), flush=True)
+    return {'web' : website_url, 'message' : msg_form, 'reservation' : resv_form}
 
 def crawl_main_list(top_url):
     ''' Get the list of businesses from Main page of Yelp.
@@ -61,32 +73,40 @@ def crawl_main_list(top_url):
     '''
     session = HTMLSession()
     req = session.get(top_url)
-
+    print('get return = {} --- {}'.format(req.url, req.reason))
     top_list = req.html.find('li.regular-search-result')
 
     # Take information of restaurants from Main Page
     for a_rest in top_list:
         time.sleep(5)
-        # Go to the link to the individual restaurant page.
-        # Get the restaurant's website, message, reservation values by Dict.
-        rest_page_info = each_rest_page(element_link(a_rest.find('h3.search-result-title > span.indexed-biz-name', first = True).find('a.biz-name.js-analytics-click', first = True)))
 
-        # Get this restaurant's information and set them to Dict.
+        # Get this restaurant's information.
         rest_name = a_rest.find('h3.search-result-title > span.indexed-biz-name > a.biz-name.js-analytics-click > span', first = True).text
         rest_genre_list = [ rest_genre.text for rest_genre in a_rest.find('div.price-category > span.category-str-list > a')]
-        rest_area = a_rest.find('div.secondary-attributes', first = True).find('span.neighborhood-str-list', first = True).text
-        rest_address = a_rest.find('div.secondary-attributes', first = True).find('address', first = True).text.replace('\n', ', ')
-        rest_phone = a_rest.find('div.secondary-attributes', first = True).find('span.biz-phone', first = True).text
+        rest_secondattr = a_rest.find('div.secondary-attributes', first = True)
+        rest_area = rest_secondattr.find('span.neighborhood-str-list', first = True).text
+        rest_address = rest_secondattr.find('address', first = True).text.replace('\n', ', ')
+        rest_phone = rest_secondattr.find('span.biz-phone', first = True).text
+        # rest_phone = '(08)6262 6262'
+        print('* {}'.format(rest_name), flush=True)
 
-        # Set information to rest_list.
+        # Go to the link to the individual restaurant page.
+        # Get the restaurant's website, message, reservation values by Dict.
+        rest_page_info = each_rest_page(element_link(a_rest.find(
+                                'h3.search-result-title > span.indexed-biz-name',
+                                first=True
+                                ).find('a.biz-name.js-analytics-click', first=True)
+                                ))
+
+        # Set information to Dict rest_list.
         rest_list[rest_name] =  { 'genre' : rest_genre_list,
                                   'area' : rest_area,
                                   'address' : rest_address,
                                   'phone' : rest_phone,
-                                  'website' : rest_page_info['website']
+                                  'web' : rest_page_info['web'],
+                                  'message' : rest_page_info['message'],
+                                  'reservation' : rest_page_info['reservation']
                                 }
-
-
 
     # Return 'next page' link
     return element_link(req.html.find(
@@ -96,6 +116,9 @@ def main():
 
     # Search on Yelp by 'Bayswater', 'within 2km'
     url = 'https://www.yelp.com.au/search?find_loc=Bayswater,+Perth+Western+Australia&start=0&l=g:115.90344429,-31.925212481,115.929021835,-31.9033555268'
+
+    # Search by 'Inglewood, Perth Western Australia', 'within 2 km'
+    url = 'https://www.yelp.com.au/search?find_loc=Inglewood,+Perth,+Western+Australia,+Australia&start=0&l=g:115.867738724,-31.9285634215,115.893316269,-31.9067072635'
 
     cnt = 1
     while url:
