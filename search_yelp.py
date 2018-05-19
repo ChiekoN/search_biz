@@ -51,15 +51,14 @@ def have_msg_form(msgf_element):
     return ('Message the business' in [i.text for i in msgf],
             'Request a reservation' in [i.text for i in msgf])
 
-def each_rest_page(each_url):
+def each_rest_page(e_session, each_url):
     ''' Open individual page of restaurants specified by 'url' and get information.
         Return a dictionary containing 'web', 'message', 'reservation'.
     '''
     if not each_url:
         return {'web' : '', 'message' : False, 'reservation' : False}
 
-    each_session = HTMLSession()
-    each_req = each_session.get(each_url)
+    each_req = e_session.get(each_url)
 
     website_url = get_website_url(each_req.html.find('span.biz-website.js-biz-website.js-add-url-tagging', first = True))
     msg_form, resv_form = have_msg_form(each_req.html.find('div.mapbox-text', first = True))
@@ -67,11 +66,10 @@ def each_rest_page(each_url):
     print('website : {} , message :{} , reserv : {}'.format(website_url, msg_form, resv_form), flush=True)
     return {'web' : website_url, 'message' : msg_form, 'reservation' : resv_form}
 
-def crawl_main_list(top_url):
+def crawl_main_list(session, top_url):
     ''' Get the list of businesses from Main page of Yelp.
         top_url : URL to open and crawl.
     '''
-    session = HTMLSession()
     req = session.get(top_url)
     print('get return = {} --- {}'.format(req.url, req.reason))
     top_list = req.html.find('li.regular-search-result')
@@ -86,13 +84,17 @@ def crawl_main_list(top_url):
         rest_secondattr = a_rest.find('div.secondary-attributes', first = True)
         rest_area = rest_secondattr.find('span.neighborhood-str-list', first = True).text
         rest_address = rest_secondattr.find('address', first = True).text.replace('\n', ', ')
-        rest_phone = rest_secondattr.find('span.biz-phone', first = True).text
+        rest_phone_elem = rest_secondattr.find('span.biz-phone', first = True)
+        if not rest_phone_elem:
+            rest_phone = ''
+        else:
+            rest_phone = rest_phone_elem.text
         # rest_phone = '(08)6262 6262'
         print('* {}'.format(rest_name), flush=True)
 
         # Go to the link to the individual restaurant page.
         # Get the restaurant's website, message, reservation values by Dict.
-        rest_page_info = each_rest_page(element_link(a_rest.find(
+        rest_page_info = each_rest_page(session, element_link(a_rest.find(
                                 'h3.search-result-title > span.indexed-biz-name',
                                 first=True
                                 ).find('a.biz-name.js-analytics-click', first=True)
@@ -112,17 +114,38 @@ def crawl_main_list(top_url):
     return element_link(req.html.find(
                 'a.u-decoration-none.next.pagination-links_anchor', first = True))
 
+def get_within_option(r, option):
+    ''' Open the top page, get and return the distance option string
+        to be set in URL.
+        r : Response object of the top page.
+        option : Distance option (within x km).
+    '''
+    within_list = r.html.find('div.filter-set.distance-filters', first=True).find('li')
+    return within_list[option].find('input.radio', first=True).attrs['value']
+
 def main():
 
-    # Search on Yelp by 'Bayswater', 'within 2km'
-    url = 'https://www.yelp.com.au/search?find_loc=Bayswater,+Perth+Western+Australia&start=0&l=g:115.90344429,-31.925212481,115.929021835,-31.9033555268'
+    # Search on Yelp
+    base_url = 'https://www.yelp.com.au/search'
 
-    # Search by 'Inglewood, Perth Western Australia', 'within 2 km'
-    url = 'https://www.yelp.com.au/search?find_loc=Inglewood,+Perth,+Western+Australia,+Australia&start=0&l=g:115.867738724,-31.9285634215,115.893316269,-31.9067072635'
+    # Specify Area, Keyword(category, genre etc)
+    local_area = 'Inglewood'
+    search_area = local_area + '+Western+Australia'
+    search_keyword = ''
+
+    payload = {'find_loc' : search_area, 'find_desc' : search_keyword}
+    distance = 3 # within 2 km
+
+    s = HTMLSession()
+    r = s.get(base_url, params=payload)
+    within_param = get_within_option(r, distance)
+
+    # assemble URL with specified 'area', 'keyword', and 'distance'
+    url = r.url + '&l=' + within_param
 
     cnt = 1
     while url:
-        url = crawl_main_list(url)
+        url = crawl_main_list(s, url)
         print(" --- Page {} finished.".format(cnt), flush=True)
 
         time.sleep(5)
