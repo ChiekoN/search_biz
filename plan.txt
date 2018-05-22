@@ -331,3 +331,11 @@ module: urllib.parse
 Set flush option to show print() immediately.
 (Without this option, printf() doesn't come out until all process finish.)
 From Python 3.
+
+
+------------------------------------
+Option input
+-------------------------------------
+Get option (Area, keyword, distance, savefile) from Python GUI, tkinter module.
+
+module: search_yelp_tk.py

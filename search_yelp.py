@@ -1,9 +1,11 @@
-# Open Top page of yelp, search location = "Perth Western Australia" and Category = "Restaurants".
-
 import time
 import os
 from urllib.parse import unquote
 from requests_html import HTMLSession
+import search_yelp_tk as sytk
+
+# Open Top page of yelp, search businesses with options,
+#  then output the list to a file specified.
 
 # List all the restaurant into the file
 # dictionary:
@@ -128,13 +130,17 @@ def main():
     # Search on Yelp
     base_url = 'https://www.yelp.com.au/search'
 
+    opt = sytk.select_option()
+    if not opt:
+        return
+
     # Specify Area, Keyword(category, genre etc)
-    local_area = 'Inglewood'
+    local_area = opt['area']
     search_area = local_area + '+Western+Australia'
-    search_keyword = ''
+    search_keyword = opt['keyword']
 
     payload = {'find_loc' : search_area, 'find_desc' : search_keyword}
-    distance = 3 # within 2 km
+    distance = opt['distance'] # within option
 
     s = HTMLSession()
     r = s.get(base_url, params=payload)
@@ -151,6 +157,12 @@ def main():
         time.sleep(5)
         cnt = cnt+1
         print("next URL:{}".format(url), flush=True)
+
+        ###########################
+        # for the test, limit the data number.
+        if cnt > 5:
+            break
+        #######################
 
     # print dictionary
     for key_rest, info_rest in rest_list.items():
