@@ -68,7 +68,7 @@ def each_rest_page(e_session, each_url):
     print('website : {} , message :{} , reserv : {}'.format(website_url, msg_form, resv_form), flush=True)
     return {'web' : website_url, 'message' : msg_form, 'reservation' : resv_form}
 
-def crawl_main_list(session, top_url):
+def crawl_main_list(session, top_url, indicator):
     ''' Get the list of businesses from Main page of Yelp.
         top_url : URL to open and crawl.
     '''
@@ -111,6 +111,7 @@ def crawl_main_list(session, top_url):
                                   'message' : rest_page_info['message'],
                                   'reservation' : rest_page_info['reservation']
                                 }
+        indicator.set_num_to_msg(len(rest_list))
 
     # Return 'next page' link
     return element_link(req.html.find(
@@ -134,6 +135,8 @@ def main():
     if not opt:
         return
 
+    ind = sytk.create_indicator()
+    ind.set_msg('Start crawling...')
     # Specify Area, Keyword(category, genre etc)
     local_area = opt['area']
     search_area = local_area + '+Western+Australia'
@@ -149,11 +152,11 @@ def main():
     # assemble URL with specified 'area', 'keyword', and 'distance'
     url = r.url + '&l=' + within_param
 
+
     cnt = 1
     while url:
-        url = crawl_main_list(s, url)
+        url = crawl_main_list(s, url, ind)
         print(" --- Page {} finished.".format(cnt), flush=True)
-
         time.sleep(5)
         cnt = cnt+1
         print("next URL:{}".format(url), flush=True)

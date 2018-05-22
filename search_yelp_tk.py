@@ -116,3 +116,48 @@ def select_option():
             'savefile' : frame.yelp_filename.get()}
     else:
         return {}
+
+
+class ProgIndicator(tk.Tk):
+    ''' Progress Indicator shown during search.'''
+    def __init__(self, parent):
+        self.parent = parent
+
+        parent.geometry(self.center_window(parent, 300, 100))
+        f = tk.Frame(parent, cursor='watch')
+
+        #self.prog = Progressbar(parent, orient='horizontal', mode='indeterminate',
+        #                        length=100)
+        #self.prog.pack()
+
+        msg_head = tk.Label(f, text='Collecting information from yelp.')
+        msg_head.grid(row=0, pady=10)
+
+        self.msg_text= tk.StringVar()
+        self_msg_text=''
+        msg = tk.Label(f, textvariable = self.msg_text)
+        msg.grid(row=1, pady=10)
+
+        f.pack()
+
+    def center_window(self, parent, w, h):
+        ''' Caliculate the position to center the window.'''
+        ws = parent.winfo_screenwidth()
+        hs = parent.winfo_screenheight()
+        x = int((ws/2) - (w/2))
+        y = int((hs/2) - (h/2))
+        return '{}x{}+{}+{}'.format(w, h, x, y)
+
+    def set_num_to_msg(self, num):
+        ''' Show message how many businesses have found.'''
+        self.msg_text.set('{} businesses found!'.format(num))
+        self.parent.update()
+
+    def set_msg(self, msg):
+        ''' Show any text message on the indicator.'''
+        self.msg_text.set(msg)
+        self.parent.update()
+
+def create_indicator():
+    root = tk.Tk()
+    return ProgIndicator(root)
