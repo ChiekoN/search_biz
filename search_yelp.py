@@ -104,17 +104,37 @@ def crawl_main_list(session, top_url, indicator):
 
         # Get this restaurant's information.
         rest_name = a_rest.find('h3.search-result-title > span.indexed-biz-name > a.biz-name.js-analytics-click > span', first = True).text
-        rest_genre_list = [ rest_genre.text for rest_genre in a_rest.find('div.price-category > span.category-str-list > a')]
-        rest_secondattr = a_rest.find('div.secondary-attributes', first = True)
-        rest_area = rest_secondattr.find('span.neighborhood-str-list', first = True).text
-        rest_address = rest_secondattr.find('address', first = True).text.replace('\n', ', ')
-        rest_phone_elem = rest_secondattr.find('span.biz-phone', first = True)
+        # Genre, Area, Address, Phone
+        rest_genre_list = [ rest_genre.text for rest_genre in a_rest.find(
+                            'div.price-category > span.category-str-list > a')]
+
+        rest_secondattr = a_rest.find('div.secondary-attributes', first=True)
+        # Some businesses don't have area.
+        rest_area_elem = rest_secondattr.find('span.neighborhood-str-list', first=True)
+        if not rest_area_elem:
+            rest_area = ''
+        else:
+            rest_area = rest_area_elem.text
+        # Some businesses don't have <address> tag and
+        #       <div class="biz-parent-container"> tag instead.
+        rest_address_elem = rest_secondattr.find('address', first=True)
+        if not rest_address_elem:
+            rest_located = rest_secondattr.find('div.biz-parent-container', first=True)
+            if rest_located:
+                rest_address = rest_located.text.replace('\n', ', ')
+            else:
+                rest_address = ''
+        else:
+            rest_address = rest_address_elem.text.replace('\n', ', ')
+        # Some businesses don't have phone number.
+        rest_phone_elem = rest_secondattr.find('span.biz-phone', first=True)
         if not rest_phone_elem:
             rest_phone = ''
         else:
             rest_phone = rest_phone_elem.text
-        # rest_phone = '(08)6262 6262'
-        print('* {}'.format(rest_name), flush=True)
+
+        #print("* {}".format(rest_name), flush=True)
+        print(str("* {}".format(rest_name).encode(encoding='cp932', errors='replace')), flush=True)
 
         # Go to the link to the individual restaurant page.
         # Get the restaurant's website, message, reservation values by Dict.

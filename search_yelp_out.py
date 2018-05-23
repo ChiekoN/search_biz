@@ -9,8 +9,10 @@ def true_to_yes(b):
 
 def dict_to_csv(savefile, rest_dict):
     ''' Write the list of businesses into the csv file specified. '''
-
-    with open(savefile, 'w', newline='') as csvfile:
+    #### debug ###
+    # print(rest_dict)
+    ##############
+    with open(savefile, 'w', encoding='utf-8', errors='ignore', newline='') as csvfile:
         writer = csv.writer(csvfile)
         # Write header.
         writer.writerow([

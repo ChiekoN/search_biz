@@ -16,6 +16,7 @@ class Getopt(tk.Frame):
         # Set default values to properties.
         self.set_init_val()
 
+        parent.title('Listing Businesses from Yelp')
         frame = tk.Frame(parent, bd=10)
         ft = font.Font(weight='bold', size=10)
         lab = tk.Label(frame, text="Listing Businesses from Yelp",
@@ -68,7 +69,11 @@ class Getopt(tk.Frame):
 
     def savefile_search(self):
         ''' Set filename specified by filedialog to yelp_filename(StringVar())'''
-        self.yelp_filename.set(filedialog.asksaveasfilename())
+        self.yelp_filename.set(filedialog.asksaveasfilename(
+                                                title='Select file',
+                                                defaultextension='.csv',
+                                                filetypes=(('all files', '*.*'),)
+                                                ))
 
     def get_options(self):
         ''' Get options specified by Popup dialog and return as Dict.
@@ -123,6 +128,7 @@ class ProgIndicator(tk.Tk):
     def __init__(self, parent):
         self.parent = parent
 
+        parent.title('Listing Businesses from Yelp')
         parent.geometry(self.center_window(parent, 300, 100))
         f = tk.Frame(parent, cursor='watch')
 
