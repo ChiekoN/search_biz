@@ -339,3 +339,12 @@ Option input
 Get option (Area, keyword, distance, savefile) from Python GUI, tkinter module.
 
 module: search_yelp_tk.py
+
+
+------------------------------
+File Output
+------------------------------
+
+Output the collected list into CSV file.
+
+module: search_yelp_out.py

@@ -3,7 +3,7 @@ import os
 from urllib.parse import unquote
 from requests_html import HTMLSession
 import search_yelp_tk as sytk
-
+import search_yelp_out as syout
 # Open Top page of yelp, search businesses with options,
 #  then output the list to a file specified.
 
@@ -167,10 +167,7 @@ def main():
             break
         #######################
 
-    # print dictionary
-    for key_rest, info_rest in rest_list.items():
-        print("{}  :   {}".format(key_rest, info_rest))
-
+    syout.dict_to_csv(opt['savefile'], rest_list)
     print("*** {} Bussinesses found ***".format(len(rest_list)))
 
 
