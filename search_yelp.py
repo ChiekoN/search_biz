@@ -53,6 +53,19 @@ def have_msg_form(msgf_element):
     return ('Message the business' in [i.text for i in msgf],
             'Request a reservation' in [i.text for i in msgf])
 
+def check_takes_rsrv(sidebar_element):
+    ''' Check if there's "Takes Reservation" and 'Yes/No' for it
+        in the right sidebar area.
+        Return 'Yes', 'No', or '' if there's no information.
+    '''
+    dd = ''
+    for divyw in sidebar_element.find('div.ywidget'):
+        if divyw.find('h3', containing='More business info'):
+            for dl in divyw.find('dl'):
+                if dl.find('dt.attribute-key', containing='Takes Reservations'):
+                    dd = dl.find('dd', first=True).text
+    return dd
+
 def each_rest_page(e_session, each_url):
     ''' Open individual page of restaurants specified by 'url' and get information.
         Return a dictionary containing 'web', 'message', 'reservation'.
@@ -63,10 +76,19 @@ def each_rest_page(e_session, each_url):
     each_req = e_session.get(each_url)
 
     website_url = get_website_url(each_req.html.find('span.biz-website.js-biz-website.js-add-url-tagging', first = True))
-    msg_form, resv_form = have_msg_form(each_req.html.find('div.mapbox-text', first = True))
+    msg_form, resv_form = have_msg_form(each_req.html.find(
+                                        'div.mapbox-text', first=True))
 
-    print('website : {} , message :{} , reserv : {}'.format(website_url, msg_form, resv_form), flush=True)
-    return {'web' : website_url, 'message' : msg_form, 'reservation' : resv_form}
+    takes_rsrv = check_takes_rsrv(each_req.html.find(
+                                    'div.column.column-beta.sidebar',
+                                    first=True))
+
+    print('website : {} , message :{} , reserv : {}, takes_rsrv : {}'.format(website_url, msg_form, resv_form, takes_rsrv), flush=True)
+
+    return {'web' : website_url,
+            'message' : msg_form,
+            'reservation' : resv_form,
+            'takes_rsrv' : takes_rsrv }
 
 def crawl_main_list(session, top_url, indicator):
     ''' Get the list of businesses from Main page of Yelp.
@@ -109,7 +131,8 @@ def crawl_main_list(session, top_url, indicator):
                                   'phone' : rest_phone,
                                   'web' : rest_page_info['web'],
                                   'message' : rest_page_info['message'],
-                                  'reservation' : rest_page_info['reservation']
+                                  'reservation' : rest_page_info['reservation'],
+                                  'takes_rsrv' : rest_page_info['takes_rsrv']
                                 }
         indicator.set_num_to_msg(len(rest_list))
 

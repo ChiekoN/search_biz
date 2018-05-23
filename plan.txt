@@ -271,6 +271,24 @@ https://www.yelp.com.au/biz/anokha-indian-restaurant-maylands?osq=Restaurants
 
 
 ------------------------------------------------
+(7) Takes Reservations
+------------------------------------------------
+
+Right side panel -> More business info -> 'Takes Reservations Yes/No'
+
+<div class="vwidget">
+    <h3>More business info</h3>
+    <ul class="ylist">
+        <li>
+            <div class="short-def-list">
+                <dl>
+                    <dt class="attribute-key">
+                        "Takes Reservations"
+                    </dt>
+                    <dd>
+                        No
+                    </dd>
+
 
 
 -------------------------------------------------
@@ -304,12 +322,13 @@ rest_list = {'<restaurant name>': {'genre' : [<array>],
                                  'phone' : '<phone>',
                                  'web' : '<website>',
                                  'message' : true/false,
-                                 'reservation' : true/false }
+                                 'reservation' : true/false,
+                                 'takes_rsrv' : Yes/No/'' }
          }
 
 5. Go to next page and repeat 3 to 4.
 
-6. Write the list into a file. (each 50 data?)
+6. Write the list into a file.
 
 
 ---------------------------------------

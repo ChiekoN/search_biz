@@ -20,8 +20,9 @@ def dict_to_csv(savefile, rest_dict):
                         'Address',
                         'Phone',
                         'Website',
-                        'Message form',
-                        'Reservation form'
+                        'Message Form',
+                        'Reservation Form',
+                        'Takes Reservation'
                         ])
 
         for name, info in rest_dict.items():
@@ -33,5 +34,6 @@ def dict_to_csv(savefile, rest_dict):
                             info['phone'],
                             info['web'],
                             true_to_yes(info['message']),
-                            true_to_yes(info['reservation'])
+                            true_to_yes(info['reservation']),
+                            info['takes_rsrv']
                             ])
