@@ -167,3 +167,30 @@ class ProgIndicator(tk.Tk):
 def create_indicator():
     root = tk.Tk()
     return ProgIndicator(root)
+
+def choose_errormessage(parent_window, errormessage, detailmessage=None):
+    ''' Show error message box.
+        If Ok is pressed, return True. If Cancel is pressed, return False.
+    '''
+    asking = '  Continue? (Press <Cancel> to quit)'
+    return messagebox.askokcancel(title='Error Message',
+                            message=errormessage + asking,
+                            detail=detailmessage,
+                            parent=parent_window)
+
+def retry_errormessage(parent_window, errormessage, detailmessage=None):
+    ''' Show error message box with asking retry.
+        If Retry is pressed, return True, If Cancel is pressed, return False.
+    '''
+    asking = '  Do you retry?'
+    return messagebox.askretrycancel(title='Error Message',
+                            message=errormessage + asking,
+                            detail=detailmessage,
+                            parent=parent_window)
+
+def show_errormessage(parent_window, errormessage, detailmessage=None):
+    ''' Show error message box with OK button.'''
+    messagebox.showerror(title='Error Message',
+                        message=errormessage,
+                        detail=detailmessage,
+                        parent=parent_window)

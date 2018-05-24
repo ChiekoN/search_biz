@@ -1,5 +1,6 @@
 import time
 import os
+import sys
 from urllib.parse import unquote
 from requests_html import HTMLSession
 import search_yelp_tk as sytk
@@ -101,60 +102,71 @@ def crawl_main_list(session, top_url, indicator):
     # Take information of restaurants from Main Page
     for a_rest in top_list:
         time.sleep(5)
+        try:
+            # Get this restaurant's information.
+            rest_name = a_rest.find('h3.search-result-title > span.indexed-biz-name > a.biz-name.js-analytics-click > span', first = True).text
+            # Genre, Area, Address, Phone
+            rest_genre_list = [ rest_genre.text for rest_genre in a_rest.find(
+                                'div.price-category > span.category-str-list > a')]
 
-        # Get this restaurant's information.
-        rest_name = a_rest.find('h3.search-result-title > span.indexed-biz-name > a.biz-name.js-analytics-click > span', first = True).text
-        # Genre, Area, Address, Phone
-        rest_genre_list = [ rest_genre.text for rest_genre in a_rest.find(
-                            'div.price-category > span.category-str-list > a')]
-
-        rest_secondattr = a_rest.find('div.secondary-attributes', first=True)
-        # Some businesses don't have area.
-        rest_area_elem = rest_secondattr.find('span.neighborhood-str-list', first=True)
-        if not rest_area_elem:
-            rest_area = ''
-        else:
-            rest_area = rest_area_elem.text
-        # Some businesses don't have <address> tag and
-        #       <div class="biz-parent-container"> tag instead.
-        rest_address_elem = rest_secondattr.find('address', first=True)
-        if not rest_address_elem:
-            rest_located = rest_secondattr.find('div.biz-parent-container', first=True)
-            if rest_located:
-                rest_address = rest_located.text.replace('\n', ', ')
+            rest_secondattr = a_rest.find('div.secondary-attributes', first=True)
+            # Some businesses don't have area.
+            rest_area_elem = rest_secondattr.find('span.neighborhood-str-list', first=True)
+            if not rest_area_elem:
+                rest_area = ''
             else:
-                rest_address = ''
-        else:
-            rest_address = rest_address_elem.text.replace('\n', ', ')
-        # Some businesses don't have phone number.
-        rest_phone_elem = rest_secondattr.find('span.biz-phone', first=True)
-        if not rest_phone_elem:
-            rest_phone = ''
-        else:
-            rest_phone = rest_phone_elem.text
+                rest_area = rest_area_elem.text
+            # rest_area = rest_area_elem.text
 
-        #print("* {}".format(rest_name), flush=True)
-        print(str("* {}".format(rest_name).encode(encoding='cp932', errors='replace')), flush=True)
+            # Some businesses don't have <address> tag and
+            #       <div class="biz-parent-container"> tag instead.
+            rest_address_elem = rest_secondattr.find('address', first=True)
+            if not rest_address_elem:
+                rest_located = rest_secondattr.find('div.biz-parent-container', first=True)
+                if rest_located:
+                    rest_address = rest_located.text.replace('\n', ', ')
+                else:
+                    rest_address = ''
+            else:
+                rest_address = rest_address_elem.text.replace('\n', ', ')
+            # Some businesses don't have phone number.
+            rest_phone_elem = rest_secondattr.find('span.biz-phone', first=True)
+            if not rest_phone_elem:
+                rest_phone = ''
+            else:
+                rest_phone = rest_phone_elem.text
 
-        # Go to the link to the individual restaurant page.
-        # Get the restaurant's website, message, reservation values by Dict.
-        rest_page_info = each_rest_page(session, element_link(a_rest.find(
-                                'h3.search-result-title > span.indexed-biz-name',
-                                first=True
-                                ).find('a.biz-name.js-analytics-click', first=True)
-                                ))
+            #print("* {}".format(rest_name), flush=True)
+            #print(str("* {}".format(rest_name).encode(encoding='cp932', errors='replace')), flush=True)
 
-        # Set information to Dict rest_list.
-        rest_list[rest_name] =  { 'genre' : rest_genre_list,
-                                  'area' : rest_area,
-                                  'address' : rest_address,
-                                  'phone' : rest_phone,
-                                  'web' : rest_page_info['web'],
-                                  'message' : rest_page_info['message'],
-                                  'reservation' : rest_page_info['reservation'],
-                                  'takes_rsrv' : rest_page_info['takes_rsrv']
-                                }
-        indicator.set_num_to_msg(len(rest_list))
+            # Go to the link to the individual restaurant page.
+            # Get the restaurant's website, message, reservation values by Dict.
+            rest_link = element_link(a_rest.find(
+                                    'h3.search-result-title > span.indexed-biz-name',
+                                    first=True
+                                    ).find('a.biz-name.js-analytics-click', first=True)
+                                    )
+            rest_page_info = each_rest_page(session, rest_link)
+
+            # Set information to Dict rest_list.
+            rest_list[rest_name] =  { 'genre' : rest_genre_list,
+                                      'area' : rest_area,
+                                      'address' : rest_address,
+                                      'phone' : rest_phone,
+                                      'web' : rest_page_info['web'],
+                                      'message' : rest_page_info['message'],
+                                      'reservation' : rest_page_info['reservation'],
+                                      'takes_rsrv' : rest_page_info['takes_rsrv'],
+                                      'page' : rest_link
+                                    }
+            indicator.set_num_to_msg(len(rest_list))
+            # print('[{}] {} :  {}'.format(len(rest_list), rest_name, rest_list[rest_name]), flush=True)
+
+        except:
+            # When any error occures...
+            err = str(sys.exc_info()[0]) + ' : ' + str(sys.exc_info()[1])
+            if not sytk.choose_errormessage(indicator.parent, 'HTML Analysis Error.', err):
+                raise # Program terminates. (otherwise go back to loop)
 
     # Return 'next page' link
     return element_link(req.html.find(
@@ -210,7 +222,8 @@ def main():
             break
         #######################
 
-    syout.dict_to_csv(opt['savefile'], rest_list)
+    ind.set_num_to_msg(len(rest_list))
+    syout.dict_to_csv(opt['savefile'], rest_list, ind)
     print("*** {} Bussinesses found ***".format(len(rest_list)))
 
 

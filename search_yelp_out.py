@@ -1,4 +1,6 @@
 import csv
+import sys
+import search_yelp_tk as sytk
 ''' Module for writing data into a csv file.'''
 
 def true_to_yes(b):
@@ -7,12 +9,26 @@ def true_to_yes(b):
     else:
         return ''
 
-def dict_to_csv(savefile, rest_dict):
+def dict_to_csv(savefile, rest_dict, parent_window):
     ''' Write the list of businesses into the csv file specified. '''
     #### debug ###
     # print(rest_dict)
     ##############
-    with open(savefile, 'w', encoding='utf-8', errors='ignore', newline='') as csvfile:
+    while True:
+        try:
+            csvfile = open(savefile, 'w', encoding='utf-8',
+                            errors='ignore', newline='')
+            break
+
+        except OSError:
+            err = str(sys.exc_info()[0])+' : '+str(sys.exc_info()[1])
+            print("Output file cannot open. ({})".format(err))
+            if not sytk.retry_errormessage(parent_window,
+                                            'File open error.', err):
+                raise   # If Cancel pressed, raise Exception and quit.
+                        # If Retry pressed, go back to loop and retry file open.
+
+    try:
         writer = csv.writer(csvfile)
         # Write header.
         writer.writerow([
@@ -24,7 +40,8 @@ def dict_to_csv(savefile, rest_dict):
                         'Website',
                         'Message Form',
                         'Reservation Form',
-                        'Takes Reservation'
+                        'Takes Reservation',
+                        'Page on yelp'
                         ])
 
         for name, info in rest_dict.items():
@@ -37,5 +54,20 @@ def dict_to_csv(savefile, rest_dict):
                             info['web'],
                             true_to_yes(info['message']),
                             true_to_yes(info['reservation']),
-                            info['takes_rsrv']
+                            info['takes_rsrv'],
+                            info['page']
                             ])
+    except csv.Error:
+        err_csv = str(sys.exc_info()[0])+' : '+str(sys.exc_info()[1])
+        print("CSV write error. ({})".format(err_csv))
+        sytk.show_errormessage(parent_window,
+                            'CSV write error. Program terminated.',
+                            err_csv)
+    except:
+        any_err = str(sys.exc_info()[0])+' : '+str(sys.exc_info()[1])
+        print("Error in writing file. ({})".format(err_csv))
+        sytk.show_errormessage(parent_window,
+                            'Error in file writing process. Program terminated.',
+                            any_err)
+    finally:
+        csvfile.close()
