@@ -76,15 +76,13 @@ def each_rest_page(e_session, each_url):
 
     each_req = e_session.get(each_url)
 
-    website_url = get_website_url(each_req.html.find('span.biz-website.js-biz-website.js-add-url-tagging', first = True))
+    website_url = get_website_url(each_req.html.find('span.biz-website.js-biz-website.js-add-url-tagging', first=True))
     msg_form, resv_form = have_msg_form(each_req.html.find(
                                         'div.mapbox-text', first=True))
 
     takes_rsrv = check_takes_rsrv(each_req.html.find(
                                     'div.column.column-beta.sidebar',
                                     first=True))
-
-    print('website : {} , message :{} , reserv : {}, takes_rsrv : {}'.format(website_url, msg_form, resv_form, takes_rsrv), flush=True)
 
     return {'web' : website_url,
             'message' : msg_form,
@@ -96,7 +94,7 @@ def crawl_main_list(session, top_url, indicator):
         top_url : URL to open and crawl.
     '''
     req = session.get(top_url)
-    print('get return = {} --- {}'.format(req.url, req.reason))
+    # print('get return = {} --- {}'.format(req.url, req.reason))
     top_list = req.html.find('li.regular-search-result')
 
     # Take information of restaurants from Main Page
@@ -136,7 +134,6 @@ def crawl_main_list(session, top_url, indicator):
             else:
                 rest_phone = rest_phone_elem.text
 
-            #print("* {}".format(rest_name), flush=True)
             #print(str("* {}".format(rest_name).encode(encoding='cp932', errors='replace')), flush=True)
 
             # Go to the link to the individual restaurant page.
@@ -148,18 +145,21 @@ def crawl_main_list(session, top_url, indicator):
                                     )
             rest_page_info = each_rest_page(session, rest_link)
 
+            list_num = len(rest_list)+1
             # Set information to Dict rest_list.
-            rest_list[rest_name] =  { 'genre' : rest_genre_list,
-                                      'area' : rest_area,
-                                      'address' : rest_address,
-                                      'phone' : rest_phone,
-                                      'web' : rest_page_info['web'],
-                                      'message' : rest_page_info['message'],
-                                      'reservation' : rest_page_info['reservation'],
-                                      'takes_rsrv' : rest_page_info['takes_rsrv'],
-                                      'page' : rest_link
+            rest_list[list_num] =  {
+                                    'name' : rest_name,
+                                    'genre' : rest_genre_list,
+                                    'area' : rest_area,
+                                    'address' : rest_address,
+                                    'phone' : rest_phone,
+                                    'web' : rest_page_info['web'],
+                                    'message' : rest_page_info['message'],
+                                    'reservation' : rest_page_info['reservation'],
+                                    'takes_rsrv' : rest_page_info['takes_rsrv'],
+                                    'page' : rest_link
                                     }
-            indicator.set_num_to_msg(len(rest_list))
+            indicator.set_num_to_msg(list_num)
             # print('[{}] {} :  {}'.format(len(rest_list), rest_name, rest_list[rest_name]), flush=True)
 
         except:

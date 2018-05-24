@@ -316,16 +316,17 @@ STRUCTURE
 
 4. For each restaurant, go to the link, open next page, and if there's 'website' and 'message to business', add those information to the list.
 
-rest_list = {'<restaurant name>': {'genre' : [<array>],
-                                 'area' : '<area'>,
-                                 'address' : '<address>',
-                                 'phone' : '<phone>',
-                                 'web' : '<website>',
-                                 'message' : true/false,
-                                 'reservation' : true/false,
-                                 'takes_rsrv' : Yes/No/'',
-                                 'page' : <page link on yelp> }
-         }
+rest_list = {id : { 'name' : '<business name>',
+                    'genre' : [<array>],
+                    'area' : '<area'>,
+                    'address' : '<address>',
+                    'phone' : '<phone>',
+                    'web' : '<website>',
+                    'message' : true/false,
+                    'reservation' : true/false,
+                    'takes_rsrv' : Yes/No/'',
+                    'page' : <page link on yelp> }
+            }
 
 5. Go to next page and repeat 3 to 4.
 

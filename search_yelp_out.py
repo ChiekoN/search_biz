@@ -44,9 +44,9 @@ def dict_to_csv(savefile, rest_dict, parent_window):
                         'Page on yelp'
                         ])
 
-        for name, info in rest_dict.items():
+        for id, info in rest_dict.items():
             writer.writerow([
-                            name,
+                            info['name'],
                             ' '.join(info['genre']),
                             info['area'],
                             info['address'],
