@@ -106,7 +106,18 @@ def crawl_main_list(session, top_url, indicator):
     """ Get the list of businesses from Main page of Yelp.
         top_url : URL to open and crawl.
     """
-    req = session.get(top_url)
+    try:
+        req = session.get(top_url)
+
+    except requests.exceptions.RequestException:
+        # In the case HTTP request failed.
+        req_err = str(sys.exc_info()[0]) + ' : ' + str(sys.exc_info()[1])
+        print('HTTP request error. ({})'.format(err))
+        sytk.show_errormessage(indicator.parent,
+                            'HTTP request error. Program terminated.',
+                            req_err)
+        raise
+
     # print('get return = {} --- {}'.format(req.url, req.reason))
     top_list = req.html.find('li.regular-search-result')
 
@@ -222,8 +233,19 @@ def main():
     payload = {'find_loc' : search_area, 'find_desc' : search_keyword}
     distance = opt['distance'] # within option
 
-    s = HTMLSession()
-    r = s.get(base_url, params=payload)
+    try:
+        s = HTMLSession()
+        r = s.get(base_url, params=payload, timeout=16)
+
+    except requests.exceptions.RequestException:
+        # In the case HTTP request failed.
+        req_err = str(sys.exc_info()[0]) + ' : ' + str(sys.exc_info()[1])
+        print('HTTP request error. ({})'.format(err))
+        sytk.show_errormessage(ind.parent,
+                            'HTTP request error. Program terminated.',
+                            req_err)
+        raise
+
     within_param = get_within_option(r, distance)
 
     # assemble URL with specified 'distance'
