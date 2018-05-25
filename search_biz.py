@@ -3,8 +3,8 @@ import os
 import sys
 from urllib.parse import unquote
 from requests_html import HTMLSession
-import search_yelp_tk as sytk
-import search_yelp_out as syout
+import search_biz_tk as sbtk
+import search_biz_out as sbout
 # -----------------------------------------------
 # Main module
 #
@@ -113,7 +113,7 @@ def crawl_main_list(session, top_url, indicator):
         # In the case HTTP request failed.
         req_err = str(sys.exc_info()[0]) + ' : ' + str(sys.exc_info()[1])
         print('HTTP request error. ({})'.format(err))
-        sytk.show_errormessage(indicator.parent,
+        sbtk.show_errormessage(indicator.parent,
                             'HTTP request error. Program terminated.',
                             req_err)
         raise
@@ -189,7 +189,7 @@ def crawl_main_list(session, top_url, indicator):
         except Exception:
             # When any program error occures...
             err = str(sys.exc_info()[0]) + ' : ' + str(sys.exc_info()[1])
-            if not sytk.choose_errormessage(indicator.parent, 'HTML Analysis Error.', err):
+            if not sbtk.choose_errormessage(indicator.parent, 'HTML Analysis Error.', err):
                 raise   # Program terminates. (otherwise go back to loop)
 
         except:
@@ -215,11 +215,11 @@ def main():
     base_url = 'https://www.yelp.com.au/search'
 
     # Set options on GUI.
-    opt = sytk.select_option()
+    opt = sbtk.select_option()
     if not opt:
         return
 
-    ind = sytk.create_indicator()
+    ind = sbtk.create_indicator()
     ind.set_msg('Start crawling...')
 
     # Specify Area, Keyword(category, genre etc)
@@ -241,7 +241,7 @@ def main():
         # In the case HTTP request failed.
         req_err = str(sys.exc_info()[0]) + ' : ' + str(sys.exc_info()[1])
         print('HTTP request error. ({})'.format(err))
-        sytk.show_errormessage(ind.parent,
+        sbtk.show_errormessage(ind.parent,
                             'HTTP request error. Program terminated.',
                             req_err)
         raise
@@ -267,7 +267,7 @@ def main():
         # --------------------------------------
 
     ind.set_num_to_msg(len(rest_list))
-    syout.dict_to_csv(opt['savefile'], rest_list, ind)
+    sbout.dict_to_csv(opt['savefile'], rest_list, ind)
     print("*** {} Bussinesses found ***".format(len(rest_list)))
 
 

@@ -1,6 +1,6 @@
 import csv
 import sys
-import search_yelp_tk as sytk
+import search_biz_tk as sbtk
 # ----------------------------------------------------------
 # Module for writing data into a csv file.
 #
@@ -26,7 +26,7 @@ def dict_to_csv(savefile, rest_dict, parent_window):
         except OSError:
             err = str(sys.exc_info()[0])+' : '+str(sys.exc_info()[1])
             print("Output file cannot open. ({})".format(err))
-            if not sytk.retry_errormessage(parent_window,
+            if not sbtk.retry_errormessage(parent_window,
                                             'File open error.', err):
                 raise   # If Cancel pressed, raise Exception and quit.
                         # If Retry pressed, go back to loop and retry file open.
@@ -63,13 +63,13 @@ def dict_to_csv(savefile, rest_dict, parent_window):
     except csv.Error:
         err_csv = str(sys.exc_info()[0])+' : '+str(sys.exc_info()[1])
         print("CSV write error. ({})".format(err_csv))
-        sytk.show_errormessage(parent_window,
+        sbtk.show_errormessage(parent_window,
                             'CSV write error. Program terminated.',
                             err_csv)
     except:
         any_err = str(sys.exc_info()[0])+' : '+str(sys.exc_info()[1])
         print("Error in writing file. ({})".format(err_csv))
-        sytk.show_errormessage(parent_window,
+        sbtk.show_errormessage(parent_window,
                             'Error in file writing process. Program terminated.',
                             any_err)
     finally:

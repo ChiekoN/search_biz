@@ -368,7 +368,7 @@ Option input
 -------------------------------------
 Get option (Area, keyword, distance, savefile) from Python GUI, tkinter module.
 
-module: search_yelp_tk.py
+module: search_biz_tk.py
 
 
 ------------------------------
@@ -377,19 +377,19 @@ File Output
 
 Output the collected list into CSV file.
 
-module: search_yelp_out.py
+module: search_biz_out.py
 
 ---------------------------------
 Error message window
 ---------------------------------
 (1) Pop up error message window if error happened during analysing HTML page
-    in crawl_main_list(), search_yelp.py
+    in crawl_main_list(), search_biz.py
     Ask the user how to deal with it. Continue? --->
         OK = Skip the analysis and go to next loop.
         Quit = Raise Exception and terminate the program.
 
 (2) Show error message window for output file open error in
-    dict_to_csv(), search_yelp_out.py
+    dict_to_csv(), search_biz_out.py
     Ask user how to deal with it --->
         Retry = Retry opening that file. (If the user deals with a problem
         with the popup open, then click Retry, the user might be able to
@@ -397,6 +397,6 @@ Error message window
         Cancel = Raise Exception and terminate the program.
 
 (3) Show error message window for file writing error in
-    dict_to_csv(), search_yelp_out.py
+    dict_to_csv(), search_biz_out.py
     It tells the user that error has happened.
     When the user presses OK, it raises Exception and the program terminates.
