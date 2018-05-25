@@ -1,7 +1,12 @@
 import csv
 import sys
 import search_yelp_tk as sytk
-''' Module for writing data into a csv file.'''
+# ----------------------------------------------------------
+# Module for writing data into a csv file.
+#
+# Ver. 1.0 released on 25/05/2018
+# Author: Chieko N.
+# -----------------------------------------------------------
 
 def true_to_yes(b):
     if b:
@@ -10,10 +15,8 @@ def true_to_yes(b):
         return ''
 
 def dict_to_csv(savefile, rest_dict, parent_window):
-    ''' Write the list of businesses into the csv file specified. '''
-    #### debug ###
-    # print(rest_dict)
-    ##############
+    """ Write the list of businesses into the csv file specified. """
+
     while True:
         try:
             csvfile = open(savefile, 'w', encoding='utf-8',

@@ -2,10 +2,15 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import font
 from tkinter import messagebox
+# ----------------------------------------------------------
+# Module for Python GUI.
+#
+# Ver. 1.0 released on 25/05/2018
+# Author: Chieko N.
+# -----------------------------------------------------------
 
-
-class Getopt(tk.Frame):
-    ''' Popup dialog for seach option.'''
+class GetOpt(tk.Frame):
+    """ Popup dialog for seach option."""
     def __init__(self, parent):
         # Define properties for input data.
         self.parent = parent
@@ -63,12 +68,12 @@ class Getopt(tk.Frame):
         frame.pack()
 
     def set_init_val(self):
-        ''' Set initial value for options.'''
+        """ Set initial value for options."""
         self.yelp_area.set('Perth')
         self.yelp_dist.set(3)
 
     def savefile_search(self):
-        ''' Set filename specified by filedialog to yelp_filename(StringVar())'''
+        """ Set filename specified by filedialog to yelp_filename."""
         self.yelp_filename.set(filedialog.asksaveasfilename(
                                                 title='Select file',
                                                 defaultextension='.csv',
@@ -76,10 +81,9 @@ class Getopt(tk.Frame):
                                                 ))
 
     def get_options(self):
-        ''' Get options specified by Popup dialog and return as Dict.
+        """ Get options specified by Popup dialog and return as Dict.
             If output filename is not set, show message window.
-        '''
-
+        """
         if not self.yelp_filename.get():
             messagebox.showwarning(message='Specify an output file to save the list.',
                                     title='Notification'
@@ -96,17 +100,17 @@ class Getopt(tk.Frame):
         self.exe_flag = True # Options are set properly.
 
     def quit_search(self):
-        ''' Close the window.'''
+        """ Close the window."""
 
         self.parent.destroy()
         self.exe_flag = False # Option setting failed.
 
 
 def select_option():
-    ''' Main function for Popup window for setting search options.'''
+    """ Main function for Popup window for setting search options."""
 
     window = tk.Tk()
-    frame = Getopt(window)
+    frame = GetOpt(window)
     window.mainloop()
 
     if frame.exe_flag:  # Options are got properly.
@@ -124,17 +128,13 @@ def select_option():
 
 
 class ProgIndicator(tk.Tk):
-    ''' Progress Indicator shown during search.'''
+    """ Progress Indicator shown during search."""
     def __init__(self, parent):
         self.parent = parent
 
         parent.title('Listing Businesses from Yelp')
         parent.geometry(self.center_window(parent, 300, 100))
         f = tk.Frame(parent, cursor='watch')
-
-        #self.prog = Progressbar(parent, orient='horizontal', mode='indeterminate',
-        #                        length=100)
-        #self.prog.pack()
 
         msg_head = tk.Label(f, text='Collecting information from yelp.')
         msg_head.grid(row=0, pady=10)
@@ -147,7 +147,7 @@ class ProgIndicator(tk.Tk):
         f.pack()
 
     def center_window(self, parent, w, h):
-        ''' Caliculate the position to center the window.'''
+        """ Caliculate the position to center the window."""
         ws = parent.winfo_screenwidth()
         hs = parent.winfo_screenheight()
         x = int((ws/2) - (w/2))
@@ -155,23 +155,25 @@ class ProgIndicator(tk.Tk):
         return '{}x{}+{}+{}'.format(w, h, x, y)
 
     def set_num_to_msg(self, num):
-        ''' Show message how many businesses have found.'''
+        """ Show message how many businesses have found."""
         self.msg_text.set('{} businesses found!'.format(num))
         self.parent.update()
 
     def set_msg(self, msg):
-        ''' Show any text message on the indicator.'''
+        """ Show any text message on the indicator."""
         self.msg_text.set(msg)
         self.parent.update()
 
+
 def create_indicator():
+    """ Create the progress indicator."""
     root = tk.Tk()
     return ProgIndicator(root)
 
 def choose_errormessage(parent_window, errormessage, detailmessage=None):
-    ''' Show error message box.
+    """ Show error message box.
         If Ok is pressed, return True. If Cancel is pressed, return False.
-    '''
+    """
     asking = '  Continue? (Press <Cancel> to quit)'
     return messagebox.askokcancel(title='Error Message',
                             message=errormessage + asking,
@@ -179,9 +181,9 @@ def choose_errormessage(parent_window, errormessage, detailmessage=None):
                             parent=parent_window)
 
 def retry_errormessage(parent_window, errormessage, detailmessage=None):
-    ''' Show error message box with asking retry.
+    """ Show error message box with asking retry.
         If Retry is pressed, return True, If Cancel is pressed, return False.
-    '''
+    """
     asking = '  Do you retry?'
     return messagebox.askretrycancel(title='Error Message',
                             message=errormessage + asking,
@@ -189,7 +191,7 @@ def retry_errormessage(parent_window, errormessage, detailmessage=None):
                             parent=parent_window)
 
 def show_errormessage(parent_window, errormessage, detailmessage=None):
-    ''' Show error message box with OK button.'''
+    """ Show error message box with OK button."""
     messagebox.showerror(title='Error Message',
                         message=errormessage,
                         detail=detailmessage,

@@ -1,4 +1,11 @@
+------------------------------------------------------
 Yelp Perth restaurants
+
+This is a program to list businesses in specific area, by searching on yelp.
+The list is written into a csv file.
+
+Ver 1.0 Released on 25/05/2018  by Chieko N.
+-----------------------------------------------------------
 
 Main Page
 --------------------------------------------------------------------------------
@@ -9,6 +16,8 @@ search?find_desc=Restaurants&find_loc=northbridge
 search?find_desc=Bars&find_loc=Perth
 search?find_desc=Bars&find_loc=Fremantle,+Perth,+Western+Australia
 
+!!! Maximum 300 businesses can be listed.
+(For safety reason. It can be extended after some uses.)
 
 (0.5) Set Distance to Within 2km, and reload the website
 
@@ -317,7 +326,7 @@ STRUCTURE
 4. For each restaurant, go to the link, open next page, and if there's 'website' and 'message to business', add those information to the list.
 
 rest_list = {id : { 'name' : '<business name>',
-                    'genre' : [<array>],
+                    'genre' : [<list>],
                     'area' : '<area'>,
                     'address' : '<address>',
                     'phone' : '<phone>',
